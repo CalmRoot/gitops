@@ -1,6 +1,6 @@
 global:
   image:
-    registry: 006805625766.dkr.ecr.us-east-1.amazonaws.com
+    registry: 533016149519.dkr.ecr.us-east-1.amazonaws.com
     pullPolicy: Always
   namespace: production
 
@@ -38,7 +38,7 @@ authService:
   port: 3001
   serviceAccount:
     name: auth-service-sa
-    roleArn: "arn:aws:iam::006805625766:role/calmroot-auth-service-role"
+    roleArn: "arn:aws:iam::533016149519:role/calmroot-auth-service-role"
   resources:
     requests:
       cpu: 200m
@@ -69,7 +69,7 @@ assessmentService:
   port: 3002
   serviceAccount:
     name: assessment-service-sa
-    roleArn: "arn:aws:iam::006805625766:role/calmroot-assessment-service-role"
+    roleArn: "arn:aws:iam::533016149519:role/calmroot-assessment-service-role"
   resources:
     requests:
       cpu: 150m
@@ -100,7 +100,7 @@ therapistService:
   port: 3003
   serviceAccount:
     name: therapist-service-sa
-    roleArn: "arn:aws:iam::006805625766:role/calmroot-therapist-service-role"
+    roleArn: "arn:aws:iam::533016149519:role/calmroot-therapist-service-role"
   resources:
     requests:
       cpu: 150m

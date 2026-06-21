@@ -24,7 +24,7 @@ spec:
         fsGroup: 101
       containers:
         - name: frontend
-          image: 006805625766.dkr.ecr.us-east-1.amazonaws.com/calmroot/frontend:v1.0.0
+          image: 533016149519.dkr.ecr.us-east-1.amazonaws.com/calmroot/frontend:v1.0.0
           ports:
             - containerPort: 8080
           livenessProbe:
