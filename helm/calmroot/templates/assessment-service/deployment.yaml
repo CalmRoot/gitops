@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assessment-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: assessment-service
+    environment: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.assessmentService.replicaCount }}
+  selector:
+    matchLabels:
+      app: assessment-service
+  template:
+    metadata:
+      labels:
+        app: assessment-service
+        role: backend
+    spec:
+      serviceAccountName: {{ .Values.assessmentService.serviceAccount.name }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: assessment-service
+          image: {{ .Values.global.image.registry }}/{{ .Values.assessmentService.image.repository }}:{{ .Values.assessmentService.image.tag }}
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.assessmentService.port }}
+          envFrom:
+            - configMapRef:
+                name: calmroot-config
+          env:
+            - name: PORT
+              value: {{ .Values.assessmentService.port | quote }}
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.assessmentService.secrets.jwtSecretName }}
+                  key: JWT_SECRET
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.assessmentService.port }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.assessmentService.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: {{ .Values.assessmentService.resources.requests.cpu }}
+              memory: {{ .Values.assessmentService.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.assessmentService.resources.limits.cpu }}
+              memory: {{ .Values.assessmentService.resources.limits.memory }}

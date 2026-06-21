@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: therapist-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: therapist-service
+    environment: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.therapistService.replicaCount }}
+  selector:
+    matchLabels:
+      app: therapist-service
+  template:
+    metadata:
+      labels:
+        app: therapist-service
+        role: backend
+    spec:
+      serviceAccountName: {{ .Values.therapistService.serviceAccount.name }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: therapist-service
+          image: {{ .Values.global.image.registry }}/{{ .Values.therapistService.image.repository }}:{{ .Values.therapistService.image.tag }}
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.therapistService.port }}
+          envFrom:
+            - configMapRef:
+                name: calmroot-config
+          env:
+            - name: PORT
+              value: {{ .Values.therapistService.port | quote }}
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.therapistService.secrets.jwtSecretName }}
+                  key: JWT_SECRET
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.therapistService.port }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.therapistService.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: {{ .Values.therapistService.resources.requests.cpu }}
+              memory: {{ .Values.therapistService.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.therapistService.resources.limits.cpu }}
+              memory: {{ .Values.therapistService.resources.limits.memory }}

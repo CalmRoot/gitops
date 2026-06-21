@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: therapist-service
+  namespace: production
+  labels:
+    app: therapist-service
+    environment: production
+    version: v1.0.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: therapist-service
+  template:
+    metadata:
+      labels:
+        app: therapist-service
+        role: backend
+    spec:
+      serviceAccountName: therapist-service-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: therapist-service
+          image: 006805625766.dkr.ecr.us-east-1.amazonaws.com/calmroot/therapist-service:v1.0.0
+          ports:
+            - containerPort: 3003
+          envFrom:
+            - configMapRef:
+                name: calmroot-config
+          env:
+            - name: PORT
+              value: "3003"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: calmroot-jwt-secret
+                  key: JWT_SECRET
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3003
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 150m
+              memory: 200Mi
+            limits:
+              cpu: 400m
+              memory: 400Mi

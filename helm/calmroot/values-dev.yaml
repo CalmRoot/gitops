@@ -1,0 +1,35 @@
+global:
+  namespace: development
+
+networkPolicy:
+  enabled: false
+
+frontend:
+  replicaCount: 1
+  image:
+    tag: v1.0.0-dev
+    shaTag: dev-00000000
+
+authService:
+  replicaCount: 1
+  image:
+    tag: v1.0.0-dev
+    shaTag: dev-00000000
+  env:
+    NODE_ENV: development
+
+assessmentService:
+  replicaCount: 1
+  image:
+    tag: v1.0.0-dev
+    shaTag: dev-00000000
+  env:
+    NODE_ENV: development
+
+therapistService:
+  replicaCount: 1
+  image:
+    tag: v1.0.0-dev
+    shaTag: dev-00000000
+  env:
+    NODE_ENV: development
