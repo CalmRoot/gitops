@@ -4,15 +4,17 @@ metadata:
   name: calmroot
   namespace: argocd
 spec:
-  description: CalmRoot application project
+  description: CalmRoot Mental Health Platform
   sourceRepos:
-    - https://github.com/Bharath-1602/CalmRoot.git
+    - https://github.com/CalmRoot/gitops.git
   destinations:
-    - namespace: calmroot-prod
+    - namespace: production
       server: https://kubernetes.default.svc
-    - namespace: external-secrets
+    - namespace: development
       server: https://kubernetes.default.svc
     - namespace: envoy-gateway-system
+      server: https://kubernetes.default.svc
+    - namespace: '*'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: '*'
