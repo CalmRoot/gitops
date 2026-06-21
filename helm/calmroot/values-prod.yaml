@@ -1,26 +1,22 @@
 global:
   namespace: production
-
 frontend:
   replicaCount: 2
   image:
-    tag: v1.0.0
-    shaTag: prod-00000000
-
+    tag: v0.1.1
+    shaTag: prod-0dc09ba
 authService:
   replicaCount: 2
   image:
-    tag: v1.0.0
-    shaTag: prod-00000000
-
+    tag: v0.1.1
+    shaTag: prod-0dc09ba
 assessmentService:
   replicaCount: 2
   image:
-    tag: v1.0.0
-    shaTag: prod-00000000
-
+    tag: v0.1.1
+    shaTag: prod-0dc09ba
 therapistService:
   replicaCount: 2
   image:
-    tag: v1.0.0
-    shaTag: prod-00000000
+    tag: v0.1.1
+    shaTag: prod-0dc09ba
