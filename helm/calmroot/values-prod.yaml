@@ -3,20 +3,20 @@ global:
 frontend:
   replicaCount: 2
   image:
-    tag: v0.2.0
-    shaTag: prod-3b0db0e
+    tag: v0.2.2
+    shaTag: prod-2dfa90e
 authService:
   replicaCount: 2
   image:
-    tag: v0.2.0
-    shaTag: prod-3b0db0e
+    tag: v0.2.2
+    shaTag: prod-2dfa90e
 assessmentService:
   replicaCount: 2
   image:
-    tag: v0.2.0
-    shaTag: prod-3b0db0e
+    tag: v0.2.2
+    shaTag: prod-2dfa90e
 therapistService:
   replicaCount: 2
   image:
-    tag: v0.2.0
-    shaTag: prod-3b0db0e
+    tag: v0.2.2
+    shaTag: prod-2dfa90e
