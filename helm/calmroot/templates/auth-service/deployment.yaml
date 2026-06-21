@@ -44,6 +44,31 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.authService.secrets.sesSecretName }}
                   key: SES_SENDER_EMAIL
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.authService.secrets.sesSecretName }}
+                  key: SMTP_HOST
+            - name: SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.authService.secrets.sesSecretName }}
+                  key: SMTP_PORT
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.authService.secrets.sesSecretName }}
+                  key: SMTP_USER
+            - name: SMTP_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.authService.secrets.sesSecretName }}
+                  key: SMTP_PASS
+            - name: SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.authService.secrets.sesSecretName }}
+                  key: SMTP_FROM
           livenessProbe:
             httpGet:
               path: /healthz
